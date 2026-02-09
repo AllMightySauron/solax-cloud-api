@@ -1,0 +1,35 @@
+{
+  "name": "solax-cloud-api",
+  "version": "0.1.0",
+  "description": "Solax/Qcells Cloud API handler",
+  "license": "Apache-2.0",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.types.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
+    "prepublishOnly": "npm run build",
+    "test": "TS_NODE_PROJECT=tsconfig.test.json mocha -r ts-node/register \"tst/**/*.test.ts\""
+  },
+  "dependencies": {
+    "sync-fetch": "^0.5.2"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.30",
+    "@types/sync-fetch": "^0.4.3",
+    "mocha": "^10.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
