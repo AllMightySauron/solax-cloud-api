@@ -175,4 +175,60 @@ describe('SolaxCloudAPI: Multiple inverters', () => {
                            SolaxCloudAPI.getGridPowerToHouse(inverter2Data.result));
   });
 
+  it('Summary', () => {
+    const summary1 = SolaxCloudAPI.toSummary(inverter1Data.result);
+    const summary2 = SolaxCloudAPI.toSummary(inverter2Data.result);
+
+    assert.deepStrictEqual({
+      pvPower: 1182 + 698,
+      acPower: -522,
+      toHouse: -522,
+      toGrid: 0,
+      toBattery: 2326,
+      fromBattery: 0,
+      batterySoC: 22,
+      fromGrid: 48,
+      inverterStatus: 'Normal Mode',
+    }, summary1);
+
+    assert.deepStrictEqual({
+      pvPower: 479 + 683,
+      acPower: 1056,
+      toHouse: 1056,
+      toGrid: 0,
+      toBattery: 0,
+      fromBattery: 0,
+      batterySoC: 0,
+      fromGrid: 0,
+      inverterStatus: 'Normal Mode',
+    }, summary2);
+  });
+
+  it('Summary (aggregate)', () => {
+    const summary1 = SolaxCloudAPI.toSummary(inverter1Data.result);
+    const summary2 = SolaxCloudAPI.toSummary(inverter2Data.result);
+
+    const aggregate = {
+      pvPower: summary1.pvPower + summary2.pvPower,
+      acPower: summary1.acPower + summary2.acPower,
+      toHouse: summary1.toHouse + summary2.toHouse,
+      toGrid: summary1.toGrid + summary2.toGrid,
+      toBattery: summary1.toBattery + summary2.toBattery,
+      fromBattery: summary1.fromBattery + summary2.fromBattery,
+      batterySoC: summary1.batterySoC + summary2.batterySoC,
+      fromGrid: summary1.fromGrid + summary2.fromGrid,
+    };
+
+    assert.deepStrictEqual({
+      pvPower: 3042,
+      acPower: 534,
+      toHouse: 534,
+      toGrid: 0,
+      toBattery: 2326,
+      fromBattery: 0,
+      batterySoC: 22,
+      fromGrid: 48,
+    }, aggregate);
+  });
+
 });
