@@ -1,6 +1,30 @@
 import fetch from 'sync-fetch';
 
 /**
+ * Summarized data interface with energy flows.
+ */
+export interface SolaxSummary {
+  /** Total PV DC power from all MPPT inputs (W) */
+  pvPower: number;
+  /** Inverter AC power output (W) */
+  acPower: number;
+  /* Inverter power consumed by the house (W) */
+  toHouse: number;
+  /** Power exported to grid (W), or 0 if importing. */
+  toGrid: number;
+  /** Battery charging power (W) from inverter, or 0 if not charging */
+  toBattery: number;
+  /** Battery discharging power (W) to house, or 0 if not discharging */
+  fromBattery: number;
+  /** Battery state of charge (%) or 0 when missing */
+  batterySoC: number;
+  /** Power imported from grid (W), or 0 if exporting */
+  fromGrid: number;
+  /** Human-readable inverter status */
+  inverterStatus: string;
+}
+
+/**
  * SolaxCloudAPIResult interface for Solax Cloud API Result.
  * */
 export interface SolaxCloudAPIResult {
@@ -271,6 +295,25 @@ export class SolaxCloudAPI {
    */
   public static getInverterPowerToHouse(data: SolaxCloudAPIResult): number {
     return this.getInverterACPower(data )- this.getInverterPowerToGrid(data);
+  }
+
+  /**
+   * Builds a summarized energy flow view from the raw API data.
+   * @param {SolaxCloudAPIResult} data The result data retrieved from the Solax Cloud API.
+   * @returns {SolaxSummary} The summarized energy flow data.
+   */
+  public static toSummary(data: SolaxCloudAPIResult): SolaxSummary {
+    return {
+      pvPower: this.getPVPower(data),
+      acPower: this.getInverterACPower(data),
+      toHouse: this.getInverterPowerToHouse(data),
+      toGrid: this.getInverterPowerToGrid(data),
+      toBattery: this.getInverterPowerToBattery(data),
+      fromBattery: this.getInverterPowerFromBattery(data),
+      batterySoC: this.getBatterySoC(data),
+      fromGrid: this.getGridPowerToHouse(data),
+      inverterStatus: this.getInverterStatus(data.inverterStatus),
+    };
   }
 
   /**

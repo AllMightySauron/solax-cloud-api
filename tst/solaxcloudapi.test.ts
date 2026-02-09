@@ -69,6 +69,20 @@ describe('SolaxCloudAPI: Static methods', () => {
     assert.strictEqual(0, SolaxCloudAPI.getGridPowerToHouse(sampleReply.result));
   });
 
+  it('Summary', () => {
+    assert.deepStrictEqual({
+      pvPower: 1258,
+      acPower: 1214,
+      toHouse: 1177,
+      toGrid: 37,
+      toBattery: 0,
+      fromBattery: 21,
+      batterySoC: 25,
+      fromGrid: 0,
+      inverterStatus: 'Normal Mode',
+    }, SolaxCloudAPI.toSummary(sampleReply.result));
+  });
+
 });
 
 describe('SolaxCloudAPI: Multiple inverters', () => {

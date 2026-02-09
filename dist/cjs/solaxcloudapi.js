@@ -206,6 +206,24 @@ class SolaxCloudAPI {
         return this.getInverterACPower(data) - this.getInverterPowerToGrid(data);
     }
     /**
+     * Builds a summarized energy flow view from the raw API data.
+     * @param {SolaxCloudAPIResult} data The result data retrieved from the Solax Cloud API.
+     * @returns {SolaxSummary} The summarized energy flow data.
+     */
+    static toSummary(data) {
+        return {
+            pvPower: this.getPVPower(data),
+            acPower: this.getInverterACPower(data),
+            toHouse: this.getInverterPowerToHouse(data),
+            toGrid: this.getInverterPowerToGrid(data),
+            toBattery: this.getInverterPowerToBattery(data),
+            fromBattery: this.getInverterPowerFromBattery(data),
+            batterySoC: this.getBatterySoC(data),
+            fromGrid: this.getGridPowerToHouse(data),
+            inverterStatus: this.getInverterStatus(data.inverterStatus),
+        };
+    }
+    /**
      * Retrieves inverter data using Solax Cloud "real-time" API.
      * @returns {SolaxCloudAPIResponse} The response by Solax Cloud API.
      */

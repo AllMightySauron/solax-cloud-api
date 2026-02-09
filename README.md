@@ -35,6 +35,18 @@ export interface SolaxCloudAPIResponse {
   result: SolaxCloudAPIResult;  // data payload
   success: boolean;             // success flag
 }
+
+export interface SolaxSummary {
+  pvPower: number;       // total PV DC power from all MPPT inputs (W)
+  acPower: number;       // inverter AC power output (W)
+  toHouse: number;       // inverter power consumed by the house (W)
+  toGrid: number;        // power exported to grid (W)
+  toBattery: number;     // battery charging power (W)
+  fromBattery: number;   // battery discharging power (W)
+  batterySoC: number;    // battery state of charge (%)
+  fromGrid: number;      // power imported from grid (W)
+  inverterStatus: string;// human-readable inverter status
+}
 ```
 
 ### Constants
@@ -146,6 +158,14 @@ Parameters:
 - `data`: real-time data payload.
 Returns:
 - Inverter power consumed by the house (W).
+
+```ts
+static toSummary(data: SolaxCloudAPIResult): SolaxSummary
+```
+Parameters:
+- `data`: real-time data payload.
+Returns:
+- Summarized energy flow data.
 
 ```ts
 static getInverterType(typeCode: string): string
