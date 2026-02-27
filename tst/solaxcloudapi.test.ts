@@ -73,6 +73,8 @@ describe('SolaxCloudAPI: Static methods', () => {
     assert.deepStrictEqual({
       pvPower: 1258,
       acPower: 1214,
+      yieldToday: 1.1,
+      yieldTotal: 121.1,
       toHouse: 1177,
       toGrid: 37,
       toBattery: 0,
@@ -182,6 +184,8 @@ describe('SolaxCloudAPI: Multiple inverters', () => {
     assert.deepStrictEqual({
       pvPower: 1182 + 698,
       acPower: -522,
+      yieldToday: 0.3,
+      yieldTotal: 6726.6,
       toHouse: -522,
       toGrid: 0,
       toBattery: 2326,
@@ -194,6 +198,8 @@ describe('SolaxCloudAPI: Multiple inverters', () => {
     assert.deepStrictEqual({
       pvPower: 479 + 683,
       acPower: 1056,
+      yieldToday: 1.3,
+      yieldTotal: 3989.1,
       toHouse: 1056,
       toGrid: 0,
       toBattery: 0,
@@ -211,6 +217,8 @@ describe('SolaxCloudAPI: Multiple inverters', () => {
     const aggregate = {
       pvPower: summary1.pvPower + summary2.pvPower,
       acPower: summary1.acPower + summary2.acPower,
+      yieldToday: summary1.yieldToday + summary2.yieldToday,
+      yieldTotal: summary1.yieldTotal + summary2.yieldTotal,
       toHouse: summary1.toHouse + summary2.toHouse,
       toGrid: summary1.toGrid + summary2.toGrid,
       toBattery: summary1.toBattery + summary2.toBattery,
@@ -222,6 +230,8 @@ describe('SolaxCloudAPI: Multiple inverters', () => {
     assert.deepStrictEqual({
       pvPower: 3042,
       acPower: 534,
+      yieldToday: 1.6,
+      yieldTotal: 10715.7,
       toHouse: 534,
       toGrid: 0,
       toBattery: 2326,

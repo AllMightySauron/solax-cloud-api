@@ -4,6 +4,10 @@ import fetch from 'sync-fetch';
  * Summarized data interface with energy flows.
  */
 export interface SolaxSummary {
+  /** Inverter AC energy output today (KWh) */
+  yieldToday: number;
+  /** Inverter AC energy output total (KWh) */
+  yieldTotal: number;
   /** Total PV DC power from all MPPT inputs (W) */
   pvPower: number;
   /** Inverter AC power output (W) */
@@ -304,6 +308,8 @@ export class SolaxCloudAPI {
    */
   public static toSummary(data: SolaxCloudAPIResult): SolaxSummary {
     return {
+      yieldToday: this.getYieldToday(data),
+      yieldTotal: this.getYieldTotal(data),
       pvPower: this.getPVPower(data),
       acPower: this.getInverterACPower(data),
       toHouse: this.getInverterPowerToHouse(data),
